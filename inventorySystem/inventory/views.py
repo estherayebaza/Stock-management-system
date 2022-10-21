@@ -1,8 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
+from .models import Inventory
 
 # Create your views here.
-def index(request):
+def inventory_list(request):
+    inventories=Inventory.objects.all()
     context={
-        "title":"Homepage"
+        "title":"Inventory list",
+        "inventories":inventories
     }
-    return render(request,"inventory/index.html",context=context)
+    return render(request,"inventory/inventory_list.html",context=context)
+def per_product_view(request, pk):
+    inventory = get_object_or_404(Inventory, pk=pk)
+    context = {
+        'inventory':inventory
+    }
+    return render(request, "inventory/per_product.html", context=context)
